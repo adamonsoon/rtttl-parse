@@ -149,8 +149,6 @@ function getData(melody, defaults) {
   const NOTES       = melody.split(',');
   const BEAT_EVERY  = 60000 / parseInt(defaults.bpm);
 
-  console.log(BEAT_EVERY);
-
   return NOTES.map((note) => {
 
     const NOTE_REGEX = /(1|2|4|8|16|32)?((?:[a-g]|h|p)#?){1}(4|5|6|7)?(\.?)/;
@@ -160,8 +158,6 @@ function getData(melody, defaults) {
     const NOTE          = NOTE_PARTS[2];
     const NOTE_OCTAVE   = NOTE_PARTS[3] || parseInt(defaults.octave);
     const NOTE_DOTTED   = NOTE_PARTS[4] === '.';
-
-    console.log(NOTE_PARTS);
 
     return {
       duration: _calculateDuration(BEAT_EVERY, parseFloat(NOTE_DURATION), NOTE_DOTTED),
