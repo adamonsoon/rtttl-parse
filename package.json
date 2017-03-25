@@ -1,0 +1,23 @@
+{
+  "name": "rtttl-parse",
+  "version": "1.0.0",
+  "description": "Parse Nokia Ring Tone Text Transfer Language (RTTTL)",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adamonsoon/rtttl-parse.git"
+  },
+  "keywords": [
+    "rtttl",
+    "nokia"
+  ],
+  "author": "Adam Rahwane <adam@produckt.co.il> (https://github.com/adamonsoon)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adamonsoon/rtttl-parse/issues"
+  },
+  "homepage": "https://github.com/adamonsoon/rtttl-parse#readme"
+}
