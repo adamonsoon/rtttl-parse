@@ -4,6 +4,7 @@
   "description": "Parse Nokia Ring Tone Text Transfer Language (RTTTL)",
   "main": "src/index.js",
   "scripts": {
+    "commit": "git-cz",
     "test": "mocha src/index.test.js -w",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
@@ -27,8 +28,8 @@
     "cz-conventional-changelog": "2.0.0",
     "mocha": "3.2.0",
     "semantic-release": "^6.3.2"
-  }
-  "czCongif": {
+  },
+  "czConfig": {
     "path": "node_modules/cz-conventional-changelog"
   }
 }
