@@ -1,4 +1,4 @@
-# rtttl
+# RTTTL Parse
 A JavaScript library for parsing Nokia Ring Tone Text Transfer Language (RTTTL)
 
 [![travis build](https://travis-ci.org/adamonsoon/rtttl-parse.svg?branch=master)](https://travis-ci.org/adamonsoon/rtttl-parse)
@@ -7,7 +7,6 @@ A JavaScript library for parsing Nokia Ring Tone Text Transfer Language (RTTTL)
 # Usage
 ```
 > rtttlParse.parse('Back to the Future:d=16,o=5,b=200:4g.,p,4c.,p,2f#.,p,g.,p,a.,p,8g,p,8e,p,8c,p,4f#,p,g.,p,a.,p,8g.,p,8d.,p,8g.,p,8d.6,p,4d.6,p,4c#6,p,b.,p,c#.6,p,2d.6');
-Tune name should not exceed 10 characters.
 { name: 'Back to the Future',
   defaults: { duration: '16', octave: '5', bpm: '200' },
   melody: 
