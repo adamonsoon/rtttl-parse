@@ -215,11 +215,6 @@ function _calculateSemitonesFromC4(note, octave) {
  * @private
  */
 function _calculateDuration(beatEvery, noteDuration, isDotted) {
-
-  if (noteDuration === 64) {
-    console.warn('Allowed duration values for RTTTL files are 1, 2, 4, 8, 16 and 32');
-  }
-
   const DURATION = (beatEvery * 4) / noteDuration;
   const PROLONGED = isDotted ? (DURATION / 2) : 0;
   return DURATION + PROLONGED;

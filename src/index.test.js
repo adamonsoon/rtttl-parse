@@ -1,6 +1,7 @@
 "use strict";
 
-const expect = require('chai').expect;
+const expect     = require('chai').expect;
+const sinon      = require('sinon');
 const rtttlParse = require('./index.js');
 
 describe('parse', () => {
@@ -33,6 +34,14 @@ describe('parse', () => {
 
 describe('getName', () => {
 
+  beforeEach(function(){
+    this.cStubWarn = sinon.stub(console, "warn");
+  });
+
+  afterEach(function(){
+    this.cStubWarn.restore();
+  });
+
   it('should return the same value', () => {
     expect(rtttlParse.getName('hello')).to.equal('hello');
   });
@@ -41,9 +50,22 @@ describe('getName', () => {
     expect(rtttlParse.getName('')).to.equal('Unknown');
   });
 
+  it('should warn if the value is longer than 10 charachters', () => {
+    rtttlParse.getName('0123456789A')
+    expect(console.warn.calledWith('Tune name should not exceed 10 characters.')).to.be.true;
+  });
+
 });
 
 describe('getDefaults', () => {
+
+  beforeEach(function(){
+    this.cStubWarn = sinon.stub(console, "warn");
+  });
+
+  afterEach(function(){
+    this.cStubWarn.restore();
+  });
 
   it('should return an object', () => {
     expect(rtttlParse.getDefaults('d=16,o=6,b=140')).to.be.an('object');
@@ -77,12 +99,28 @@ describe('getDefaults', () => {
     expect(rtttlParse.getDefaults('d=16,o=6')).to.have.property('bpm').and.equal('63');
   });
 
+  it('should return default values if nothing is specified', () => {
+    expect(rtttlParse.getDefaults('')).to.have.property('bpm').and.equal('63');
+    expect(rtttlParse.getDefaults('')).to.have.property('octave').and.equal('6');
+    expect(rtttlParse.getDefaults('')).to.have.property('duration').and.equal('4');
+  });
+
   it('should throw an error if duration is invalid', () => {
     expect(() => rtttlParse.getDefaults('d=17')).to.throw(Error).with.property('message', 'Invalid duration 17');
   });
 
   it('should throw an error if a setting does not contain = separator', () => {
     expect(() => rtttlParse.getDefaults('d')).to.throw(Error).with.property('message', 'Invalid setting d');
+  });
+
+  it('should warn if the octave value is invalid', () => {
+    rtttlParse.getDefaults('o=17');
+    expect(console.warn.calledWith('Invalid octave 17')).to.be.true;
+  });
+
+  it('should warn if the bpm value is invalid', () => {
+    rtttlParse.getDefaults('b=10000');
+    expect(console.warn.calledWith('Invalid BPM 10000')).to.be.true;
   });
 
 });
@@ -139,6 +177,11 @@ describe('getData', () => {
     expect(rtttlParse.getData('16a.', defaults)[0].duration).to.equal(187.5);
     expect(rtttlParse.getData('32a', defaults)[0].duration).to.equal(62.5);
     expect(rtttlParse.getData('32a.', defaults)[0].duration).to.equal(93.75);
+  });
+
+  it('should treat b and h as the same note', () => {
+    expect(rtttlParse.getData('b',  defaults)[0].frequency).to.be.closeTo(493.9, 0.1);
+    expect(rtttlParse.getData('h',  defaults)[0].frequency).to.be.closeTo(493.9, 0.1);
   });
 
 });
