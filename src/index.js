@@ -1,7 +1,10 @@
 "use strict";
 
 module.exports = {
-  parse: parse
+  parse,
+  getName,
+  getDefaults,
+  getData
 };
 
 /**
@@ -71,7 +74,7 @@ function getDefaults(defaults) {
     const KEY_VAL = value.split('=');
 
     if (KEY_VAL.length !== 2) {
-      throw Error('Invalid setting ' . value);
+      throw new Error('Invalid setting ' + value);
     }
 
     const KEY = KEY_VAL[0];
@@ -90,16 +93,16 @@ function getDefaults(defaults) {
         if (ALLOWED_DURATION.indexOf(VAL) !== -1) {
           return {duration: VAL};
         } else {
-          throw Error('Invalid duration ' . VAL);
+          throw new Error('Invalid duration ' + VAL);
         }
       case 'o':
         if (ALLOWED_OCTAVE.indexOf(VAL) === -1) {
-          console.warn('Invalid octave ' . VAL);
+          console.warn('Invalid octave ' + VAL);
         }
         return {octave: VAL};
       case 'b':
         if (ALLOWED_BPM.indexOf(VAL) === -1) {
-          console.warn('Invalid BPM ' . VAL);
+          console.warn('Invalid BPM ' + VAL);
         }
         return {bpm: VAL};
     }
@@ -151,7 +154,7 @@ function getData(melody, defaults) {
 
   return NOTES.map((note) => {
 
-    const NOTE_REGEX = /(1|2|4|8|16|32)?((?:[a-g]|h|p)#?){1}(4|5|6|7)?(\.?)/;
+    const NOTE_REGEX = /(1|2|4|8|16|32|64)?((?:[a-g]|h|p)#?){1}(4|5|6|7)?(\.?)/;
     const NOTE_PARTS = note.match(NOTE_REGEX);
 
     const NOTE_DURATION = NOTE_PARTS[1] || parseInt(defaults.duration);
@@ -183,12 +186,14 @@ function _calculateFrequency(note, octave) {
   const C4           = 261.63;
   const TWELFTH_ROOT = Math.pow(2, 1/12);
   const N            = _calculateSemitonesFromC4(note, octave);
+  const FREQUENCY    = C4 * Math.pow(TWELFTH_ROOT, N);
 
-  return (C4 * Math.pow(TWELFTH_ROOT, N)).toFixed(1);
-
+  return Math.round(FREQUENCY * 1e1) / 1e1;
 }
 
 function _calculateSemitonesFromC4(note, octave) {
+
+  const NOTE = note === 'h' ? 'b' : note;
 
   const NOTE_ORDER          = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
   const MIDDLE_OCTAVE       = 4;
@@ -196,7 +201,7 @@ function _calculateSemitonesFromC4(note, octave) {
 
   const OCTAVE_JUMP = (octave - MIDDLE_OCTAVE) * SEMITONES_IN_OCTAVE;
 
-  return NOTE_ORDER.indexOf(note) + OCTAVE_JUMP;
+  return NOTE_ORDER.indexOf(NOTE) + OCTAVE_JUMP;
 
 }
 
@@ -210,6 +215,11 @@ function _calculateSemitonesFromC4(note, octave) {
  * @private
  */
 function _calculateDuration(beatEvery, noteDuration, isDotted) {
+
+  if (noteDuration === 64) {
+    console.warn('Allowed duration values for RTTTL files are 1, 2, 4, 8, 16 and 32');
+  }
+
   const DURATION = (beatEvery * 4) / noteDuration;
   const PROLONGED = isDotted ? (DURATION / 2) : 0;
   return DURATION + PROLONGED;
