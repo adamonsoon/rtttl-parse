@@ -158,11 +158,12 @@ function getData(melody, defaults) {
     const NOTE_PARTS = note.match(NOTE_REGEX);
 
     const NOTE_DURATION = NOTE_PARTS[1] || parseInt(defaults.duration);
-    const NOTE          = NOTE_PARTS[2];
+    const NOTE          = NOTE_PARTS[2] === 'h' ? 'b' : NOTE_PARTS[2];
     const NOTE_OCTAVE   = NOTE_PARTS[3] || parseInt(defaults.octave);
     const NOTE_DOTTED   = NOTE_PARTS[4] === '.';
 
     return {
+      note: NOTE,
       duration: _calculateDuration(BEAT_EVERY, parseFloat(NOTE_DURATION), NOTE_DOTTED),
       frequency: _calculateFrequency(NOTE, NOTE_OCTAVE)
     };
@@ -193,15 +194,13 @@ function _calculateFrequency(note, octave) {
 
 function _calculateSemitonesFromC4(note, octave) {
 
-  const NOTE = note === 'h' ? 'b' : note;
-
   const NOTE_ORDER          = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
   const MIDDLE_OCTAVE       = 4;
   const SEMITONES_IN_OCTAVE = 12;
 
   const OCTAVE_JUMP = (octave - MIDDLE_OCTAVE) * SEMITONES_IN_OCTAVE;
 
-  return NOTE_ORDER.indexOf(NOTE) + OCTAVE_JUMP;
+  return NOTE_ORDER.indexOf(note) + OCTAVE_JUMP;
 
 }
 

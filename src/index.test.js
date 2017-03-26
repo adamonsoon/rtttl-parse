@@ -138,10 +138,10 @@ describe('getData', () => {
     expect(rtttlParse.getData(rtttlMelody, defaults)).to.be.an('array');
   });
 
-  it('should have duration and frequency set for each note', () => {
+  it('should have note name, duration and frequency set for each note', () => {
 
     rtttlParse.getData(rtttlMelody, defaults).map((item) => {
-      expect(item).to.contain.all.keys('duration', 'frequency');
+      expect(item).to.contain.all.keys('note', 'duration', 'frequency');
     });
 
     rtttlParse.getData(rtttlMelody, defaults).map((item) => {
@@ -149,6 +149,23 @@ describe('getData', () => {
       expect(item.duration).to.be.a('number');
     });
 
+  });
+
+  it('should return correct note values', () => {
+    expect(rtttlParse.getData('a',  defaults)[0].note).to.equal('a');
+    expect(rtttlParse.getData('a#', defaults)[0].note).to.equal('a#');
+    expect(rtttlParse.getData('b',  defaults)[0].note).to.equal('b');
+    expect(rtttlParse.getData('h',  defaults)[0].note).to.equal('b');
+    expect(rtttlParse.getData('c',  defaults)[0].note).to.equal('c');
+    expect(rtttlParse.getData('c#', defaults)[0].note).to.equal('c#');
+    expect(rtttlParse.getData('d',  defaults)[0].note).to.equal('d');
+    expect(rtttlParse.getData('d#', defaults)[0].note).to.equal('d#');
+    expect(rtttlParse.getData('e',  defaults)[0].note).to.equal('e');
+    expect(rtttlParse.getData('e#', defaults)[0].note).to.equal('e#');
+    expect(rtttlParse.getData('f',  defaults)[0].note).to.equal('f');
+    expect(rtttlParse.getData('f#', defaults)[0].note).to.equal('f#');
+    expect(rtttlParse.getData('g',  defaults)[0].note).to.equal('g');
+    expect(rtttlParse.getData('g#', defaults)[0].note).to.equal('g#');
   });
 
   it('should return correct frequency values', () => {
