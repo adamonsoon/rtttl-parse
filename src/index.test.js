@@ -179,6 +179,7 @@ describe('getData', () => {
     expect(rtttlParse.getData('c5', defaults)[0].frequency).to.be.closeTo(523.2, 0.1);
     expect(rtttlParse.getData('c6', defaults)[0].frequency).to.be.closeTo(1046.5, 0.1);
     expect(rtttlParse.getData('c7', defaults)[0].frequency).to.be.closeTo(2093, 0.1);
+    expect(rtttlParse.getData('c.7', defaults)[0].frequency).to.be.closeTo(2093, 0.1);
   });
 
   it('should return correct duration values', () => {
