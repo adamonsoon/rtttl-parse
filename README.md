@@ -6,6 +6,7 @@ A JavaScript library for parsing Nokia Ring Tone Text Transfer Language (RTTTL)
 
 # About
 This library takes an RTTTL string and returns a parsed version that can be used to build a player.
+
 If you just want to play some RTTTL files online, use the demo player: [rtttl-play](https://adamonsoon.github.io/rtttl-play/)
 
 # Usage
