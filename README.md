@@ -4,6 +4,10 @@ A JavaScript library for parsing Nokia Ring Tone Text Transfer Language (RTTTL)
 [![travis build](https://travis-ci.org/adamonsoon/rtttl-parse.svg?branch=master)](https://travis-ci.org/adamonsoon/rtttl-parse)
 [![codecov](https://img.shields.io/codecov/c/github/adamonsoon/rtttl-parse.svg)](https://codecov.io/gh/adamonsoon/rtttl-parse)
 
+# About
+This library takes an RTTTL string and returns a parsed version that can be used to build a player.
+If you just want to play some RTTTL files online, use the demo player: [rtttl-play](https://adamonsoon.github.io/rtttl-play/)
+
 # Usage
 ```javascript
 > rtttlParse.parse('Back to the Future:d=16,o=5,b=200:4g.,p,4c.,p,2f#.,p,g.,p,a.,p,8g,p,8e,p,8c,p,4f#,p,g.,p,a.,p,8g.,p,8d.,p,8g.,p,8d.6,p,4d.6,p,4c#6,p,b.,p,c#.6,p,2d.6');
